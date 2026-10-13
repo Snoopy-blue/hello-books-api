@@ -1,0 +1,8 @@
+一个类比:
+DeclarativeBase:一份通用的"员工模板"
+Base:你们公司自己的员工模板(现在和通用模板一样,以后可以加公司专属规定)
+db = SQLAlchemy(model_class=Base):给这个模板配上公司的工牌系统和门禁(数据库连接、session、自动命名)
+db.Model:带着工牌和门禁权限的员工模板
+Book(db.Model):一个具体的员工
+
+只有带了工牌的员工,才能在公司(Flask app)里进出自如
