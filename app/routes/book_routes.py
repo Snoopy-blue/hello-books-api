@@ -23,7 +23,17 @@ def create_book():
 
 @books_bp.get("")
 def get_all_books():
-    query = db.select(Book).order_by(Book.id) #like writing plan, not touching database yet
+    query = db.select(Book)
+
+    title_param = request.args.get("title")
+    if title_param:
+        query = query.where(Book.title.ilike(f"%{title_param}%"))
+
+    description_param = request.args.get("description")
+    if description_param:
+        query = query.where(Book.description.ilike(f"%{description_param}%"))
+    
+    query = query.order_by(Book.id) #like writing plan, not touching database yet
     books = db.session.scalars(query) #execute the plan, get model ojects that represent table rows (records).
 
     books_response = []
