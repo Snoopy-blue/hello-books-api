@@ -5,7 +5,22 @@ class Book(db.Model):
     """class book inherits from db.Model from SQLAlchemy, 
     in SQLAlchemy constructor - we pass Base,
     in Base class, we get behavior from SQLAlchemy parent calss DeclarativeBase"""
-    
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str]
     description: Mapped[str]
+
+    def to_dict(self):
+        book_as_dict = {}
+        book_as_dict["id"] = self.id
+        book_as_dict["title"] = self.title
+        book_as_dict["description"] = self.description
+
+        return book_as_dict
+
+    @classmethod
+    def from_dict(cls, book_data):
+        new_book = cls(title=book_data["title"],
+                    description=book_data["description"]) 
+
+        return new_book
+
