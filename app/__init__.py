@@ -1,13 +1,13 @@
 from flask import Flask
 from .db import db, migrate 
 from .routes.book_routes import bp as books_bp
-from .models import book
+from .routes.author_routes import bp as authors_bp
+from .models import book, author
 import os
 
 
 def create_app(config=None):
     app = Flask(__name__)
-
     #先配置
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
@@ -23,6 +23,7 @@ def create_app(config=None):
 
     # Register Blueprints here
     app.register_blueprint(books_bp)
+    app.register_blueprint(authors_bp)
 
     return app 
 

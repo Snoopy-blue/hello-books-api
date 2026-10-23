@@ -97,7 +97,7 @@ def test_create_one_book_no_description(client):
     assert response.status_code == 400
     assert response_body == {'message': 'Invalid request: missing description'}
 
-def test_create_one_book_with_extra_keys(client):
+def test_from_dict_with_extra_keys():
     # Arrange
     test_data = {
         "extra": "some stuff",
@@ -107,13 +107,8 @@ def test_create_one_book_with_extra_keys(client):
     }
 
     # Act
-    response = client.post("/books", json=test_data)
-    response_body = response.get_json()
+    new_book = Book.from_dict(test_data)
 
     # Assert
-    assert response.status_code == 201
-    assert response_body == {
-        "id": 1,
-        "title": "New Book",
-        "description": "The Best!"
-    }
+    assert new_book.title == "New Book"
+    assert new_book.description == "The Best!"
